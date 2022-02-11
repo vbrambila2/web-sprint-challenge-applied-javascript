@@ -56,20 +56,13 @@ const tabsAppender = (selector) => {
 
   axios.get(`http://localhost:5000/api/topics`)
     .then(res => {
-      
-        const tabMaker = Tabs(res.data.topics);
-        tabsEntry.appendChild(tabMaker);
-      
+      const tabMaker = Tabs(res.data.topics);
+      tabsEntry.appendChild(tabMaker);   
     })
     .catch(err => console.error(err))
     .finally(() => {
       console.log("Done");
     })
-
-  // const tabsEntry = document.querySelector(selector);
-  // const arr = ["Javascript", "Bootstrap", "Technology"];
-  // const tabMaker = Tabs(arr);
-  // tabsEntry.appendChild(tabMaker); 
 }
 
 export { Tabs, tabsAppender }

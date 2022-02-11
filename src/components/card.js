@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -17,6 +19,37 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+
+  const card = document.createElement("div");
+  const cardHeadline = document.createElement("div");
+  const cardAuthor = document.createElement("div");
+  const cardImageContainer = document.createElement("div");
+  const cardImage = document.createElement("img");
+  const cardAuthorName = document.createElement("span");
+
+  card.appendChild(cardHeadline);
+  card.appendChild(cardAuthor);
+  card.appendChild(cardImageContainer);
+  card.appendChild(cardImage);
+  card.appendChild(cardAuthorName);
+  cardAuthor.appendChild(cardImageContainer);
+  cardAuthor.appendChild(cardAuthorName);
+  cardImageContainer.appendChild(cardImage);
+
+  card.classList.add("card");
+  cardHeadline.classList.add("headline");
+  cardAuthor.classList.add("author");
+  cardImageContainer.classList.add("img-container");
+
+  cardImage.src = article.authorPhoto;
+  cardHeadline.textContent = article.headline;
+  cardAuthorName.textContent = article.authorName;
+
+  card.addEventListener("click", () => {
+    console.log(article.headline);
+  })
+
+  return card;
 }
 
 const cardAppender = (selector) => {
@@ -28,6 +61,26 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+
+  axios.get(`http://localhost:5000/api/articles`)
+  .then(res => {
+    const data = res.data.articles;
+    console.log(data, "res");
+    for (var key in data) {
+      var obj = data[key];
+      console.log(obj);
+  }
+    // const cardMaker = Card(res.data.topics);
+    // tabsEntry.appendChild(tabMaker);   
+  })
+  .catch(err => console.error(err))
+  .finally(() => {
+    console.log("Done");
+  })
+
+  // const cardEntry = document.querySelector(selector);
+  // const cardMaker = Card({headline: "Lambda News", authorPhoto: "February 11th 2022", authorName: "81 Degrees Fahrenheit"});
+  // cardEntry.appendChild(cardMaker); 
 }
 
 export { Card, cardAppender }
