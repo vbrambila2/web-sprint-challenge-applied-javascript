@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const Tabs = (topics) => {
   // TASK 3
   // ---------------------
@@ -18,15 +20,21 @@ const Tabs = (topics) => {
   const tabsOne = document.createElement("div");
   const tabsTwo = document.createElement("div");
   const tabsThree = document.createElement("div");
+  const tabsFour = document.createElement("div");
+  const tabsFive = document.createElement("div");
 
   tabsTopics.classList.add("topics");
   tabsOne.classList.add("tab");
   tabsTwo.classList.add("tab");
   tabsThree.classList.add("tab");
+  tabsFour.classList.add("tab");
+  tabsFive.classList.add("tab");
 
   tabsTopics.appendChild(tabsOne);
   tabsTopics.appendChild(tabsTwo);
   tabsTopics.appendChild(tabsThree);
+  tabsTopics.appendChild(tabsFour);
+  tabsTopics.appendChild(tabsFive);
 
   tabsTopics.querySelectorAll(".tab").forEach((el, i) => {
     el.textContent = topics[i];
@@ -45,10 +53,23 @@ const tabsAppender = (selector) => {
   //
 
   const tabsEntry = document.querySelector(selector);
-  const arr = ["Javascript", "Bootstrap", "Technology"];
-  const tabMaker = Tabs(arr);
 
-  tabsEntry.appendChild(tabMaker); 
+  axios.get(`http://localhost:5000/api/topics`)
+    .then(res => {
+      
+        const tabMaker = Tabs(res.data.topics);
+        tabsEntry.appendChild(tabMaker);
+      
+    })
+    .catch(err => console.error(err))
+    .finally(() => {
+      console.log("Done");
+    })
+
+  // const tabsEntry = document.querySelector(selector);
+  // const arr = ["Javascript", "Bootstrap", "Technology"];
+  // const tabMaker = Tabs(arr);
+  // tabsEntry.appendChild(tabMaker); 
 }
 
 export { Tabs, tabsAppender }
