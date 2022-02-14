@@ -62,25 +62,25 @@ const cardAppender = (selector) => {
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
 
+  const cardEntry = document.querySelector(selector);
+
   axios.get(`http://localhost:5000/api/articles`)
   .then(res => {
     const data = res.data.articles;
-    console.log(data, "res");
+    
     for (var key in data) {
       var obj = data[key];
-      console.log(obj);
-  }
-    // const cardMaker = Card(res.data.topics);
-    // tabsEntry.appendChild(tabMaker);   
+      for (var arr in obj) {
+        var element = obj[arr];
+        const cardMaker = Card(element);
+        cardEntry.appendChild(cardMaker);
+      }
+    } 
   })
   .catch(err => console.error(err))
   .finally(() => {
     console.log("Done");
   })
-
-  // const cardEntry = document.querySelector(selector);
-  // const cardMaker = Card({headline: "Lambda News", authorPhoto: "February 11th 2022", authorName: "81 Degrees Fahrenheit"});
-  // cardEntry.appendChild(cardMaker); 
 }
 
 export { Card, cardAppender }
